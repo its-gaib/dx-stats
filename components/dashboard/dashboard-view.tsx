@@ -22,8 +22,6 @@ import { MILESTONES, type Milestone } from "@/lib/milestones";
    Palette
    ----------------------------------------------------------------------- */
 
-const BRAND = "var(--brand)";
-const BRAND_FILL = "oklch(0.928 0.23 123.978 / 0.2)";
 const CHART_COLORS = [
   "var(--chart-1)",
   "var(--chart-2)",
@@ -40,6 +38,12 @@ const CHART_COLORS = [
 type Props = { data: DashboardData };
 
 export function DashboardView({ data }: Props) {
+  const [heroRef, heroVisible] = useInView();
+  const [starsRef, starsVisible] = useInView();
+  const [npmRef, npmVisible] = useInView();
+  const [cratesRef, cratesVisible] = useInView();
+  const [healthRef, healthVisible] = useInView();
+
   if (!data.flatPoints.length || !data.latest) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center px-6">
@@ -49,12 +53,6 @@ export function DashboardView({ data }: Props) {
   }
 
   const milestonePositions = getMilestonePositions(data.flatPoints);
-
-  const [heroRef, heroVisible] = useInView();
-  const [starsRef, starsVisible] = useInView();
-  const [npmRef, npmVisible] = useInView();
-  const [cratesRef, cratesVisible] = useInView();
-  const [healthRef, healthVisible] = useInView();
   const av = (visible: boolean, n: number) => (visible ? n : 0);
 
   const latestFlat = data.flatPoints[data.flatPoints.length - 1];
