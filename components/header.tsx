@@ -1,7 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function Header() {
   return (
@@ -9,7 +10,7 @@ export function Header() {
       <div className="mx-auto flex h-20 max-w-[1400px] items-center justify-between">
         <div className="flex items-center gap-8">
           <Link href="/">
-            <Image src="/pubky-logo.svg" alt="Pubky" width={109} height={36} priority />
+            <img src={`${basePath}/pubky-logo.svg`} alt="Pubky" width={109} height={36} />
           </Link>
 
           <nav className="hidden sm:flex items-center gap-1">

@@ -5,7 +5,6 @@ import { TrendingUp, TrendingDown, Minus, Target } from "lucide-react";
 import { format } from "date-fns";
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import NumberFlow, { continuous, type Format } from "@number-flow/react";
-import Image from "next/image";
 import {
   ChartContainer,
   ChartTooltip,
@@ -17,6 +16,8 @@ import { Badge } from "@/components/ui/badge";
 import type { DashboardData, DashboardKpi } from "@/lib/data/metrics-service";
 import { SMART_TARGETS } from "@/lib/targets";
 import { MILESTONES, type Milestone } from "@/lib/milestones";
+
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 /* -----------------------------------------------------------------------
    Palette
@@ -351,7 +352,7 @@ export function DashboardView({ data }: Props) {
           ═══════════════════════════════════════════════════════════════════ */}
       <footer className="border-t border-border/30 px-4 py-8 sm:px-6">
         <div className="mx-auto flex max-w-[1200px] flex-col items-center justify-between gap-4 sm:flex-row">
-          <Image src="/pubky-logo.svg" alt="Pubky" width={80} height={26} />
+          <img src={`${basePath}/pubky-logo.svg`} alt="Pubky" width={80} height={26} />
           <p className="text-xs text-muted-foreground">
             Synonym Software, S.A. DE C.V. &copy;{new Date().getFullYear()}.
             All rights reserved.
