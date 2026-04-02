@@ -22,7 +22,7 @@ export function Header() {
 
         <div className="flex items-center gap-3">
           <a
-            href="https://github.com/pubky"
+            href="https://github.com/its-gaib/dx-stats"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 rounded-full border border-border px-5 py-2 text-sm font-semibold text-foreground transition-colors hover:bg-secondary/60"
