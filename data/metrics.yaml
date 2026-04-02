@@ -1,48 +1,105 @@
-- date: "2026-04-01"
+- date: '2026-04-02'
   github:
     org_followers: 140
     repos:
-      pkarr: { stars: 387, forks: 42, open_issues: 12, dependents: 451 }
-      pkdns: { stars: 188, forks: 15, open_issues: 5, dependents: 0 }
-      pubky-core: { stars: 75, forks: 8, open_issues: 3, dependents: 10 }
-      pubky-app: { stars: 17, forks: 2, open_issues: 7, dependents: 0 }
-      pubky-nexus: { stars: 18, forks: 1, open_issues: 4, dependents: 2 }
+      pkdns-resolver-extension:
+        stars: 5
+        forks: 0
+        open_issues: 0
+        dependents: 0
+      pubky-tls-proxy:
+        stars: 8
+        forks: 2
+        open_issues: 0
+        dependents: 0
+      pubky-app:
+        stars: 18
+        forks: 4
+        open_issues: 189
+        dependents: 0
+      pubky-ring:
+        stars: 7
+        forks: 2
+        open_issues: 35
+        dependents: 0
+      pubky-app-specs:
+        stars: 8
+        forks: 6
+        open_issues: 10
+        dependents: 2
+      pwpw:
+        stars: 6
+        forks: 0
+        open_issues: 1
+        dependents: 0
+      react-native-pubky:
+        stars: 5
+        forks: 3
+        open_issues: 0
+        dependents: 2
+      pubky-nexus:
+        stars: 19
+        forks: 7
+        open_issues: 51
+        dependents: 19
+      pubky-explorer:
+        stars: 12
+        forks: 4
+        open_issues: 6
+        dependents: 0
+      atomicity:
+        stars: 22
+        forks: 2
+        open_issues: 0
+        dependents: 0
+      pubky-knowledge-base:
+        stars: 8
+        forks: 6
+        open_issues: 3
+        dependents: 0
+      pkdns:
+        stars: 189
+        forks: 18
+        open_issues: 8
+        dependents: 0
+      pubky-beta:
+        stars: 10
+        forks: 2
+        open_issues: 125
+        dependents: 0
+      pubky-core:
+        stars: 76
+        forks: 26
+        open_issues: 52
+        dependents: 5
+      mainline:
+        stars: 92
+        forks: 18
+        open_issues: 10
+        dependents: 202
+      pkarr:
+        stars: 389
+        forks: 39
+        open_issues: 15
+        dependents: 453
   npm:
-    "@synonymdev/pubky": { weekly: 368 }
-    "@synonymdev/react-native-pubky": { weekly: 13 }
-    "@synonymdev/pkarr": { weekly: 5 }
+    '@synonymdev/pubky':
+      weekly: 1032
+    '@synonymdev/react-native-pubky':
+      weekly: 7
+    '@synonymdev/pkarr':
+      weekly: 7
   crates:
-    pkarr: { recent: 206800, total: 599500 }
-    pubky: { recent: 1520, total: 16900 }
+    pkarr:
+      recent: 207862
+      total: 601291
+    pubky:
+      recent: 1527
+      total: 17346
   manual:
-    ttfhw_minutes: 45
-    active_builders: 6
-    community_projects: 3
-    homeserver_nodes: null
-    docs_monthly_visitors: null
-    bounty_completion_rate: null
-    events_attended: null
-
-- date: "2026-04-02"
-  github:
-    org_followers: 140
-    repos:
-      pkarr: { stars: 389, forks: 42, open_issues: 12, dependents: 453 }
-      pkdns: { stars: 189, forks: 15, open_issues: 5, dependents: 0 }
-      pubky-core: { stars: 76, forks: 8, open_issues: 3, dependents: 10 }
-      pubky-app: { stars: 18, forks: 2, open_issues: 7, dependents: 0 }
-      pubky-nexus: { stars: 19, forks: 1, open_issues: 4, dependents: 2 }
-  npm:
-    "@synonymdev/pubky": { weekly: 373 }
-    "@synonymdev/react-native-pubky": { weekly: 14 }
-    "@synonymdev/pkarr": { weekly: 6 }
-  crates:
-    pkarr: { recent: 207149, total: 600805 }
-    pubky: { recent: 1527, total: 17346 }
-  manual:
-    ttfhw_minutes: 45
-    active_builders: 6
-    community_projects: 3
+    ttfhw_minutes: null
+    active_builders: null
+    community_projects: null
     homeserver_nodes: null
     docs_monthly_visitors: null
     bounty_completion_rate: null
