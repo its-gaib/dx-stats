@@ -107,7 +107,7 @@ export function DashboardView({ data }: Props) {
           <BigStat
             value={av(heroVisible, latestFlat.crates_total_recent as number)}
             format={numFmt(latestFlat.crates_total_recent as number)}
-            label="Crates Downloads"
+            label="Crates DL (90 days)"
             accent
           />
           <BigStat
@@ -234,7 +234,7 @@ export function DashboardView({ data }: Props) {
               className="inline"
             />{" "}
             <span className="text-muted-foreground font-semibold text-2xl sm:text-3xl">
-              recent downloads
+              downloads (last 90 days)
             </span>
           </h2>
 
