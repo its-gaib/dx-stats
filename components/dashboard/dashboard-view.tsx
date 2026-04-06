@@ -552,7 +552,7 @@ function MultiAreaChart({
         <ChartTooltip content={<ChartTooltipContent formatLabel={shortDate} />} />
         <ChartLegend content={<ChartLegendContent />} />
         {keys.map((k, i) => (
-          <Area key={k} type="monotone" dataKey={k} stroke={CHART_COLORS[i % CHART_COLORS.length]} strokeWidth={2} fill={`url(#g-${k})`} dot={false} stackId="1" />
+          <Area key={k} type="monotone" dataKey={k} stroke={CHART_COLORS[i % CHART_COLORS.length]} strokeWidth={2} fill={`url(#g-${k})`} dot={false} stackId="1" isAnimationActive={false} />
         ))}
       </AreaChart>
     </ChartContainer>
@@ -581,7 +581,7 @@ function MultiLineChart({
         <ChartTooltip content={<ChartTooltipContent formatLabel={shortDate} />} />
         <ChartLegend content={<ChartLegendContent />} />
         {keys.map((k, i) => (
-          <Line key={k} type="monotone" dataKey={k} stroke={CHART_COLORS[i % CHART_COLORS.length]} strokeWidth={2.5} dot={false} />
+          <Line key={k} type="monotone" dataKey={k} stroke={CHART_COLORS[i % CHART_COLORS.length]} strokeWidth={2.5} dot={false} isAnimationActive={false} />
         ))}
       </LineChart>
     </ChartContainer>
@@ -610,7 +610,7 @@ function MultiBarChart({
         <ChartTooltip content={<ChartTooltipContent formatLabel={shortDate} />} />
         <ChartLegend content={<ChartLegendContent />} />
         {keys.map((k, i) => (
-          <Bar key={k} dataKey={k} fill={CHART_COLORS[i % CHART_COLORS.length]} fillOpacity={0.8} radius={[3, 3, 0, 0]} />
+          <Bar key={k} dataKey={k} fill={CHART_COLORS[i % CHART_COLORS.length]} fillOpacity={0.8} radius={[3, 3, 0, 0]} isAnimationActive={false} />
         ))}
       </BarChart>
     </ChartContainer>
