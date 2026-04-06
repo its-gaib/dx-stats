@@ -164,12 +164,19 @@ export function DashboardView({ data }: Props) {
               total stars
             </span>
           </h2>
+          <p className="mt-3 max-w-lg text-base text-muted-foreground">
+            Showing projects with 20+ stars.
+          </p>
 
           <ChartReveal height={320} className="relative mt-10">
             <MultiAreaChart
               data={data.flatPoints}
-              keys={data.repoNames.map((r) => `stars_${r}`)}
-              labels={data.repoNames}
+              keys={data.repoNames
+                .filter((r) => (latestFlat[`stars_${r}`] as number) >= 20)
+                .map((r) => `stars_${r}`)}
+              labels={data.repoNames.filter(
+                (r) => (latestFlat[`stars_${r}`] as number) >= 20,
+              )}
               height={320}
             />
             <MilestoneMarkers positions={milestonePositions} />
