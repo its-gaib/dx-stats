@@ -14,7 +14,7 @@ export function Header() {
           </Link>
 
           <nav className="hidden sm:flex items-center gap-1">
-            <span className="rounded-full bg-brand/15 text-brand px-4 py-2 text-sm font-medium">
+            <span className="text-brand text-sm font-medium">
               DX Stats
             </span>
           </nav>
