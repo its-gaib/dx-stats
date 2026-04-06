@@ -19,6 +19,7 @@ const NPM_PACKAGES = [
   "@synonymdev/pubky",
   "@synonymdev/react-native-pubky",
   "@synonymdev/pkarr",
+  "@synonymdev/pubky-app-specs",
 ];
 
 const CRATES = ["pkarr", "pubky"];
