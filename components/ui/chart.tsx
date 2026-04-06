@@ -138,11 +138,20 @@ function ChartTooltipContent({
                 <span className="size-2 rounded-full" style={{ backgroundColor: dotColor }} />
                 <span className="text-muted-foreground">{itemConfig?.label ?? item.name ?? key}</span>
               </div>
-              <span className="font-semibold text-popover-foreground">{item.value}</span>
+              <span className="font-semibold text-popover-foreground">{Number(item.value).toLocaleString("en-US")}</span>
             </div>
           );
         })}
       </div>
+      {payload.length > 1 && (() => {
+        const total = payload.reduce((sum, entry) => sum + (Number((entry as TooltipPayloadEntry).value) || 0), 0);
+        return (
+          <div className="mt-1.5 flex items-center justify-between gap-3 border-t border-border/50 pt-1.5">
+            <span className="font-medium text-popover-foreground">Total</span>
+            <span className="font-semibold text-popover-foreground">{total.toLocaleString("en-US")}</span>
+          </div>
+        );
+      })()}
     </div>
   );
 }
