@@ -2,7 +2,7 @@ export interface RepoMetrics {
   stars: number;
   forks: number;
   open_issues: number;
-  dependents: number;
+  dependents?: number;
 }
 
 export interface NpmPackageMetrics {
@@ -12,6 +12,11 @@ export interface NpmPackageMetrics {
 export interface CrateMetrics {
   recent: number;
   total: number;
+}
+
+export interface CrateDependents {
+  rust: number;
+  npm: number;
 }
 
 export interface ManualMetrics {
@@ -32,6 +37,7 @@ export interface MetricSnapshot {
   };
   npm: Record<string, NpmPackageMetrics>;
   crates: Record<string, CrateMetrics>;
+  dependents?: Record<string, CrateDependents>;
   manual: ManualMetrics;
 }
 

@@ -24,6 +24,9 @@ const NPM_PACKAGES = [
 
 const CRATES = ["pkarr", "pubky"];
 
+const DEPENDENTS_ANALYSIS_CRATES = ["pkarr", "pubky", "pubky-app-specs", "mainline"];
+const DEPENDENTS_ANALYSIS_BASE = "https://its-gaib.github.io/pubky-dependents-analysis";
+
 const DATA_FILE = path.resolve(process.cwd(), "data", "metrics.yaml");
 
 // --- Types (matching lib/data/types.ts) ---
@@ -32,7 +35,11 @@ interface RepoMetrics {
   stars: number;
   forks: number;
   open_issues: number;
-  dependents: number;
+}
+
+interface CrateDependents {
+  rust: number;
+  npm: number;
 }
 
 interface NpmPackageMetrics {
@@ -62,6 +69,7 @@ interface MetricSnapshot {
   };
   npm: Record<string, NpmPackageMetrics>;
   crates: Record<string, CrateMetrics>;
+  dependents?: Record<string, CrateDependents>;
   manual: ManualMetrics;
 }
 
@@ -123,28 +131,31 @@ async function fetchRepoStats(repo: string): Promise<RepoMetrics> {
     open_issues_count: number;
   }>(`https://api.github.com/repos/${GITHUB_ORG}/${repo}`, ghHeaders);
 
-  const dependents = await scrapeGitHubDependents(repo);
-
   return {
     stars: data?.stargazers_count ?? 0,
     forks: data?.forks_count ?? 0,
     open_issues: data?.open_issues_count ?? 0,
-    dependents,
   };
 }
 
-async function scrapeGitHubDependents(repo: string): Promise<number> {
-  try {
-    const res = await fetch(`https://github.com/${GITHUB_ORG}/${repo}/network/dependents`, {
-      headers: { "User-Agent": "dx-stats-collector" },
-    });
-    if (!res.ok) return 0;
-    const html = await res.text();
-    const match = html.match(/([0-9,]+)\s+Repositor/);
-    return match ? parseInt(match[1].replace(/,/g, ""), 10) : 0;
-  } catch {
-    return 0;
+// --- Dependents (from pubky-dependents-analysis) ---
+
+async function fetchDependentsAnalysis(): Promise<Record<string, CrateDependents>> {
+  const result: Record<string, CrateDependents> = {};
+  for (const crate of DEPENDENTS_ANALYSIS_CRATES) {
+    const data = await fetchJson<{
+      total: number;
+      npm_dependents?: unknown[];
+    }>(`${DEPENDENTS_ANALYSIS_BASE}/${crate}.json`);
+
+    result[crate] = {
+      rust: data?.total ?? 0,
+      npm: Array.isArray(data?.npm_dependents) ? data.npm_dependents.length : 0,
+    };
+    console.log(`  dependents ${crate}: ${result[crate].rust} Rust, ${result[crate].npm} npm`);
+    await delay(200);
   }
+  return result;
 }
 
 async function fetchOrgFollowers(): Promise<number> {
@@ -234,6 +245,9 @@ async function main() {
     await delay(200);
   }
 
+  // Fetch dependents from pubky-dependents-analysis
+  const dependents = await fetchDependentsAnalysis();
+
   // Carry forward manual KPIs from previous entry, or null
   const prevManual = existing.at(-1)?.manual;
   const manual: ManualMetrics = {
@@ -255,6 +269,7 @@ async function main() {
     },
     npm: npmStats,
     crates: crateStats,
+    dependents,
     manual,
   };
 

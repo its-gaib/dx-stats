@@ -43,6 +43,7 @@ export interface DashboardData {
   repoNames: string[];
   npmPackages: string[];
   crateNames: string[];
+  dependentCrates: string[];
   startDate: string | null;
   endDate: string | null;
 }
@@ -60,8 +61,9 @@ export async function getDashboardData(range?: DateRangeFilter): Promise<Dashboa
   const repoNames = discoverKeys(snapshots, (s) => s.github?.repos);
   const npmPackages = discoverKeys(snapshots, (s) => s.npm);
   const crateNames = discoverKeys(snapshots, (s) => s.crates);
+  const dependentCrates = discoverKeys(snapshots, (s) => s.dependents);
 
-  const flatPoints = snapshots.map((s) => flatten(s, repoNames, npmPackages, crateNames));
+  const flatPoints = snapshots.map((s) => flatten(s, repoNames, npmPackages, crateNames, dependentCrates));
 
   return {
     snapshots,
@@ -72,6 +74,7 @@ export async function getDashboardData(range?: DateRangeFilter): Promise<Dashboa
     repoNames,
     npmPackages,
     crateNames,
+    dependentCrates,
     startDate: snapshots[0]?.date ?? null,
     endDate: snapshots.at(-1)?.date ?? null,
   };
@@ -99,6 +102,7 @@ function flatten(
   repoNames: string[],
   npmPackages: string[],
   crateNames: string[],
+  dependentCrates: string[],
 ): FlatMetricRecord {
   const rec: FlatMetricRecord = {
     date: s.date,
@@ -115,12 +119,24 @@ function flatten(
     const r = s.github?.repos?.[repo];
     rec[`stars_${repo}`] = r?.stars ?? 0;
     rec[`forks_${repo}`] = r?.forks ?? 0;
-    rec[`dependents_${repo}`] = r?.dependents ?? 0;
     rec[`issues_${repo}`] = r?.open_issues ?? 0;
     rec.github_total_stars += r?.stars ?? 0;
     rec.github_total_forks += r?.forks ?? 0;
-    rec.github_total_dependents += r?.dependents ?? 0;
     rec.github_total_open_issues += r?.open_issues ?? 0;
+  }
+
+  // Dependents: prefer new per-crate analysis, fall back to old per-repo field
+  if (s.dependents) {
+    for (const crate of dependentCrates) {
+      const d = s.dependents[crate];
+      rec[`deps_rust_${crate}`] = d?.rust ?? 0;
+      rec[`deps_npm_${crate}`] = d?.npm ?? 0;
+      rec.github_total_dependents += (d?.rust ?? 0) + (d?.npm ?? 0);
+    }
+  } else {
+    for (const repo of repoNames) {
+      rec.github_total_dependents += s.github?.repos?.[repo]?.dependents ?? 0;
+    }
   }
 
   for (const pkg of npmPackages) {
@@ -143,8 +159,8 @@ function flatten(
 function buildKpis(latest: MetricSnapshot, previous: MetricSnapshot): DashboardKpi[] {
   const latestTotalStars = sumRepoField(latest, "stars");
   const prevTotalStars = sumRepoField(previous, "stars");
-  const latestTotalDeps = sumRepoField(latest, "dependents");
-  const prevTotalDeps = sumRepoField(previous, "dependents");
+  const latestTotalDeps = sumDependents(latest);
+  const prevTotalDeps = sumDependents(previous);
   const latestNpmTotal = sumNpm(latest);
   const prevNpmTotal = sumNpm(previous);
   const latestCratesTotal = sumCratesRecent(latest);
@@ -210,6 +226,18 @@ function createKpi(
 function sumRepoField(s: MetricSnapshot, field: keyof MetricSnapshot["github"]["repos"][string]): number {
   if (!s.github?.repos) return 0;
   return Object.values(s.github.repos).reduce((sum, r) => sum + (r?.[field] ?? 0), 0);
+}
+
+function sumDependents(s: MetricSnapshot): number {
+  if (s.dependents) {
+    return Object.values(s.dependents).reduce(
+      (sum, d) => sum + (d?.rust ?? 0) + (d?.npm ?? 0),
+      0,
+    );
+  }
+  // Fallback for old data that has dependents on repo objects
+  if (!s.github?.repos) return 0;
+  return Object.values(s.github.repos).reduce((sum, r) => sum + (r?.dependents ?? 0), 0);
 }
 
 function sumNpm(s: MetricSnapshot): number {

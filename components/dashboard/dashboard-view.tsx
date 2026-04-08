@@ -43,6 +43,7 @@ export function DashboardView({ data }: Props) {
   const [starsRef, starsVisible] = useInView();
   const [npmRef, npmVisible] = useInView();
   const [cratesRef, cratesVisible] = useInView();
+  const [depsRef, depsVisible] = useInView();
   const [healthRef, healthVisible] = useInView();
 
   if (!data.flatPoints.length || !data.latest) {
@@ -249,6 +250,52 @@ export function DashboardView({ data }: Props) {
           </ChartReveal>
         </div>
       </section>
+
+      {/* ═══════════════════════════════════════════════════════════════════
+          DEPENDENTS
+          ═══════════════════════════════════════════════════════════════════ */}
+      {data.dependentCrates.length > 0 && (
+        <section ref={depsRef} className="px-4 py-20 sm:px-6 lg:py-28">
+          <div className="mx-auto max-w-[1200px]">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand">
+              Ecosystem
+            </p>
+            <h2 className="mt-2 text-4xl font-extrabold tracking-tight sm:text-5xl">
+              <NumberFlow
+                value={av(depsVisible, latestFlat.github_total_dependents as number)}
+                format={numFmt(latestFlat.github_total_dependents as number)}
+                trend={1}
+                plugins={[continuous]}
+                className="inline"
+              />{" "}
+              <span className="text-muted-foreground font-semibold text-2xl sm:text-3xl">
+                dependents
+              </span>
+            </h2>
+            <p className="mt-3 max-w-lg text-base text-muted-foreground">
+              Rust crate and npm package dependents.{" "}
+              <a
+                href="https://its-gaib.github.io/pubky-dependents-analysis/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-brand underline underline-offset-2 hover:text-brand/80"
+              >
+                Full analysis →
+              </a>
+            </p>
+
+            <ChartReveal height={320} className="relative mt-10">
+              <MultiBarChart
+                data={data.flatPoints.filter((p) => data.dependentCrates.some((c) => p[`deps_rust_${c}`] != null))}
+                keys={buildDependentKeys(data.dependentCrates, latestFlat)}
+                labels={buildDependentLabels(data.dependentCrates, latestFlat)}
+                height={320}
+              />
+              <MilestoneMarkers positions={milestonePositions} />
+            </ChartReveal>
+          </div>
+        </section>
+      )}
 
       {/* ═══════════════════════════════════════════════════════════════════
           GITHUB HEALTH
@@ -671,6 +718,34 @@ function MilestoneMarkers({
       ))}
     </>
   );
+}
+
+/* -----------------------------------------------------------------------
+   Dependent chart helpers
+   ----------------------------------------------------------------------- */
+
+function buildDependentKeys(
+  crates: string[],
+  latestFlat: Record<string, unknown>,
+): string[] {
+  const keys: string[] = [];
+  for (const c of crates) {
+    if ((latestFlat[`deps_rust_${c}`] as number) > 0) keys.push(`deps_rust_${c}`);
+    if ((latestFlat[`deps_npm_${c}`] as number) > 0) keys.push(`deps_npm_${c}`);
+  }
+  return keys;
+}
+
+function buildDependentLabels(
+  crates: string[],
+  latestFlat: Record<string, unknown>,
+): string[] {
+  const labels: string[] = [];
+  for (const c of crates) {
+    if ((latestFlat[`deps_rust_${c}`] as number) > 0) labels.push(`${c} · Rust`);
+    if ((latestFlat[`deps_npm_${c}`] as number) > 0) labels.push(`${c} · npm`);
+  }
+  return labels;
 }
 
 /* -----------------------------------------------------------------------
