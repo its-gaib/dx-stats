@@ -636,3 +636,111 @@
     docs_monthly_visitors: null
     bounty_completion_rate: null
     events_attended: null
+- date: '2026-04-08'
+  github:
+    org_followers: 141
+    repos:
+      pkdns-resolver-extension:
+        stars: 5
+        forks: 0
+        open_issues: 0
+        dependents: 0
+      pubky-tls-proxy:
+        stars: 8
+        forks: 2
+        open_issues: 0
+        dependents: 0
+      pubky-app:
+        stars: 19
+        forks: 4
+        open_issues: 188
+        dependents: 0
+      pubky-ring:
+        stars: 7
+        forks: 2
+        open_issues: 35
+        dependents: 0
+      pubky-app-specs:
+        stars: 8
+        forks: 6
+        open_issues: 11
+        dependents: 2
+      pwpw:
+        stars: 6
+        forks: 0
+        open_issues: 1
+        dependents: 0
+      react-native-pubky:
+        stars: 5
+        forks: 3
+        open_issues: 0
+        dependents: 2
+      pubky-nexus:
+        stars: 19
+        forks: 7
+        open_issues: 54
+        dependents: 19
+      pubky-explorer:
+        stars: 12
+        forks: 4
+        open_issues: 6
+        dependents: 0
+      atomicity:
+        stars: 22
+        forks: 2
+        open_issues: 0
+        dependents: 0
+      pubky-knowledge-base:
+        stars: 8
+        forks: 6
+        open_issues: 3
+        dependents: 0
+      pkdns:
+        stars: 189
+        forks: 18
+        open_issues: 8
+        dependents: 0
+      pubky-beta:
+        stars: 10
+        forks: 2
+        open_issues: 125
+        dependents: 0
+      pubky-core:
+        stars: 76
+        forks: 25
+        open_issues: 55
+        dependents: 5
+      mainline:
+        stars: 93
+        forks: 18
+        open_issues: 10
+        dependents: 205
+      pkarr:
+        stars: 392
+        forks: 39
+        open_issues: 15
+        dependents: 461
+  npm:
+    '@synonymdev/pubky':
+      weekly: 995
+    '@synonymdev/react-native-pubky':
+      weekly: 40
+    '@synonymdev/pkarr':
+      weekly: 1
+    '@synonymdev/pubky-app-specs':
+      weekly: 0
+  crates:
+    pkarr:
+      recent: 216250
+      total: 616675
+    pubky:
+      recent: 1499
+      total: 17423
+  manual:
+    ttfhw_minutes: null
+    active_builders: null
+    community_projects: null
+    homeserver_nodes: null
+    docs_monthly_visitors: null
+    bounty_completion_rate: null
+    events_attended: null
