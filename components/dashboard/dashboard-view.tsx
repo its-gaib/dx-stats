@@ -285,7 +285,7 @@ export function DashboardView({ data }: Props) {
             </p>
 
             <ChartReveal height={320} className="relative mt-10">
-              <MultiBarChart
+              <MultiAreaChart
                 data={data.flatPoints.filter((p) => data.dependentCrates.some((c) => p[`deps_rust_${c}`] != null))}
                 keys={buildDependentKeys(data.dependentCrates, latestFlat)}
                 labels={buildDependentLabels(data.dependentCrates, latestFlat)}
