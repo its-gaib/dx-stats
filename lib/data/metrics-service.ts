@@ -1,4 +1,3 @@
-import { getMetricsSource } from "@/lib/data/source";
 import type { DateRangeFilter, MetricSnapshot, TrendDirection } from "@/lib/data/types";
 import { SMART_TARGETS, type SmartTarget } from "@/lib/targets";
 
@@ -52,9 +51,11 @@ export interface DashboardData {
    Main entry point
    ----------------------------------------------------------------------- */
 
-export async function getDashboardData(range?: DateRangeFilter): Promise<DashboardData> {
-  const source = getMetricsSource();
-  const snapshots = await source.getMetrics(range);
+export function computeDashboardData(
+  allSnapshots: MetricSnapshot[],
+  range?: DateRangeFilter,
+): DashboardData {
+  const snapshots = filterByDateRange(allSnapshots, range);
   const latest = snapshots.at(-1) ?? null;
   const previous = snapshots.at(-2) ?? null;
 
@@ -78,6 +79,15 @@ export async function getDashboardData(range?: DateRangeFilter): Promise<Dashboa
     startDate: snapshots[0]?.date ?? null,
     endDate: snapshots.at(-1)?.date ?? null,
   };
+}
+
+function filterByDateRange(records: MetricSnapshot[], range?: DateRangeFilter): MetricSnapshot[] {
+  if (!range?.from && !range?.to) return records;
+  return records.filter((record) => {
+    if (range.from && record.date < range.from) return false;
+    if (range.to && record.date > range.to) return false;
+    return true;
+  });
 }
 
 /* -----------------------------------------------------------------------

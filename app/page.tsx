@@ -1,7 +1,5 @@
-import { DashboardView } from "@/components/dashboard/dashboard-view";
-import { getDashboardData } from "@/lib/data/metrics-service";
+import { DashboardLoader } from "@/components/dashboard/dashboard-loader";
 
-export default async function HomePage() {
-  const data = await getDashboardData();
-  return <DashboardView data={data} />;
+export default function HomePage() {
+  return <DashboardLoader />;
 }
